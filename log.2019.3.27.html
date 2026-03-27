@@ -1,72 +1,79 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Loading...</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .terminal {
-            width: 80%;
-            max-width: 600px;
-        }
-
-        .log-line {
-            margin: 5px 0;
-            opacity: 0;
-            animation: fadeIn 0.3s forwards;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: #fff;
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        a { color: #888; text-decoration: none; font-size: 12px; margin-top: 20px; }
-    </style>
+    <title>HEV_FRAGMENT_RECOVERY_PROT</title>
 </head>
-<body>
+<body style="background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; padding: 20px; margin: 0;">
 
-    <div class="terminal" id="terminal">
-        <div class="log-line">Initializing system kernel... [OK]</div>
-        <div class="log-line" style="animation-delay: 0.5s;">Accessing database: log.2019.3.27...</div>
-        <div class="log-line" style="animation-delay: 1s;">Bypassing security protocols...</div>
-        <div class="log-line" style="animation-delay: 1.5s;">Redirecting to target node... <span class="cursor"></span></div>
+    <pre id="log-container" style="height: 85vh; overflow-y: auto; margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; line-height: 1.5; color: #0f0;"></pre>
+
+    <div style="border-top: 1px solid #0f0; padding: 10px 0; display: flex; align-items: center; background: #000; position: fixed; bottom: 0; width: 100%;">
+        <span style="white-space: nowrap;">HEV-GATE:\> </span>
+        <input type="text" id="cmd-input" autofocus 
+               style="background: transparent; border: none; color: #0f0; outline: none; font-family: inherit; font-size: 14px; width: 90%; margin-left: 5px;">
     </div>
 
-    <a href="log.2019.3.27.html">Manual Entry</a>
-
     <script>
-        // 設定 2.5 秒後跳轉，這段時間足以讓動畫跑完且避開瀏覽器即時攔截
-        setTimeout(function() {
-            window.location.replace("log.2019.3.27.html");
-        }, 2500);
+        const logContainer = document.getElementById('log-container');
+        const input = document.getElementById('cmd-input');
+
+        // 正確的解密內容 (你提供的特殊字串)
+        const secretContent = `∰A5ψ78∭49⊗F4∰20E5ψ2Eξ6A∑55ℶA2θF2⌋D0∞98Γ2065θC5⌋89≈99φ48∞8Aζ41∏B0∆A7∰E6ξ87∭5E⌈FF∞A1∑4A⌋A9∞CEΓ75ℶDEθ20E0ℵDD≈BE⊥61∰A5ψ6Aξ78Γ2CθF2⌋103∞93Γ5DℶDCθB7ℶDAθB4⌋C9∞A1∑58ℵD1∏C0⌈EC∰94∭53⊗A6∰94ψ6Fψ75∭58∆FF∰E1ξ7Cζ2B∏B8∆FE∰DDξ31Γ2AℶB2ℶE6θF2⌋D7≈91φ34∞8Fζ3A∏AB⌈FB∰93∇10⊥54∰B8ξ30∑4AℵD5≈BF⊥A∰A3ψ6C∭60⊗63∰9Eψ65ψ86∭46⊗AA∰8Aψ74ξ87Γ3BθF0⌋C7≈85φ3B∞87Γ31θB1⌋C8≈CAφ2F∞8Bζ31∏AE⌈BD∰8E∭53∆EA∰99ψ86∇7BΞB∰A1ξ75φ75≈83Ξ7∰A3∭60⌈EB∰D9ξ6Cφ42≈87Ξ46∞8C∑69ℵC4≈B3⊥1F∰DFξ66Γ60ℶD8θB1ℵD3≈102⊥11∰8Dξ3DΓ2CθAD⌋C9≈93φ36∞86Γ25ℶD8ℶ9BℶEEℶF9θA5⌋D6≈89φ7B≈CCφ29∞8Aζ29≈C3ΞC∰A7∭56⊗12∰E3ψ7Bψ68∭4C∆EF∰E1ψ77∭4B⊗101∰E8ψ79ψ68∭43⌈FB∰DCξ85φ25≈CFφ4B∞D7Γ39θC0ℶD5θC4⌋C7∞8Bζ75∏B4∆B5∰A0ψ83∭47∆E9∰9Bψ6Fξ7Aφ7A≈9BΞ18∰A9∭4F∆FF∰E3ξ74∑62ℵD2∏FB⊗11∰8Fψ66ψ79∭47⊗F3∰9Bψ86ξ31∑5C⌋85∞90ζ2C∏B2⊗27∰97ψ76ψ2B∭58⊗F1∰9Aψ72ψ70∭56⌈FE∰91∇6Bφ82∞97Γ5AℶDBθ103ℵ99≈9E⊥55∰9Fψ6D∭48⌈2093∰89∇45Ξ1F∰92∇71φ88∞86Γ4AℶA7ℶE4ℶDBℶBAℶE2θB1⌋E2≈C9φ37∞86Γ65ℶB2ℶD6θEB⌋8A≈89Ξ1E∞89∑1B⌋C6≈86φ2F∞9Bφ40≈96Ξ13∞D7∑58⌋D5∞98ζ2F≈90ΞD∰85∇42⊥5∰91ξ69ζ3F∏FD⌈E6∰95∇76φ40∞8Dζ6F∏DF⌈9B∰C5∇76φ3B∞D4Γ39θAFℶD8θF4⌋E0∞90Γ3EθF2ℵE0≈BA⊥5∰8Fξ71ζ72∏BE⌈100∰9E∇55⊥11∰8Fψ78∭4B⌈FB∰DA∇50⊥1D∰A1ξ66∑61⌋D9∞D6Γ29ℶA6ℶDBθB3⌋DB≈8Bφ2083∞CEΓ2C∏BF⌈208E∞83∑13⌋CF∞8EΓ35θAB⌈BF∞89∑65ℵ99≈C0⊗1C∰97ψ6Eξ33∑52⌋CE∞9Aζ74∏AE⌈F1∰8C∇5E⊥D∰97ξ39Γ2EℶBBℶD4θA5ℵE1∏BB⌈B9∰A1∇73Ξ52∰85∇4F⊗1B∰8Bψ2Cξ83∑60⌋FF∞97Γ5FℶC5θED⌋C5∞9Dζ27∏BF⊗1C∰9Cψ22ψ84∭45∆E4∰E1ξ67Γ40θBA⌋D4∞90ζ22∏C6⊗11∰E2ψ71ψ6D∭64∆F0∰99ξ89Γ2EℶE7ℶDDθA4ℵCA∏AD∆F1∰9Aψ6D∇7EΞ52∰D9∭85⊗14∰92ψ25ψ6C∭4C⊗F7∰89ψ2Aξ7C∑62⌋C8∞CDζ43≈B9⊥22∰A7ξ2D∑1B⌋DD≈8BΞD∞D0∑57ℵCA≈C6⊗5E∰8Cψ75ξ62∑1A⌋C8∞92ζ33≈B6⊥13∰94ψ2C∇76Ξ2∰84∇57⊥28∰9Aψ35∭4C∆103∰A5ψ74∭4F∆E6∰98ψ79ξ7Cζ34≈A9⊗5C∰92ψ70ξ68∭49⌈C3∞82∑5E⌋F5∞96瀏覽器已記錄解密請求...
+[FRAGMENT RECOVERY] 58%...
+[FRAGMENT RECOVERY] 100%
+--------------------------------------------------
+FINAL KEY: UNFOUND
+--------------------------------------------------`;
+
+        function addLog(text, color = "#0f0") {
+            const line = document.createElement('div');
+            line.style.color = color;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+            logContainer.appendChild(line);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // 初始動態 Log
+        const bootMsg = [
+            "Initializing HEV_GATE System...",
+            "Loading Virtual_Disk_Manager...",
+            "Checking ChatHistory.2019.3.29.txt integrity...",
+            "[ERROR] File is encrypted with 8-bit XOR Logic.",
+            "Waiting for access code..."
+        ];
+
+        bootMsg.forEach((m, i) => setTimeout(() => addLog(m), i * 500));
+
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const val = this.value.trim().toUpperCase();
+                addLog(`CMD:\\> ${this.value}`, "#fff");
+                
+                if (val === '0388') {
+                    addLog("DECRYPTING FRAGMENT...", "#ffff00");
+                    
+                    // 模擬逐行顯示內容
+                    const lines = secretContent.split('\n');
+                    lines.forEach((line, index) => {
+                        setTimeout(() => {
+                            const div = document.createElement('div');
+                            div.textContent = line;
+                            div.style.color = (line.includes("UNFOUND")) ? "yellow" : "#0f0";
+                            if (line.includes("UNFOUND")) div.style.fontWeight = "bold";
+                            logContainer.appendChild(div);
+                            logContainer.scrollTop = logContainer.scrollHeight;
+                        }, 1000 + (index * 50));
+                    });
+                } else {
+                    addLog("ERROR: INVALID_CREDENTIALS", "#f00");
+                }
+                this.value = '';
+            }
+        });
+
+        document.addEventListener('click', () => input.focus());
     </script>
 </body>
 </html>
