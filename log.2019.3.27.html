@@ -1,97 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEV_FRAGMENT_RECOVERY_PROT</title>
-</head>
-<body style="background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; padding: 20px; margin: 0;">
-
-    <pre id="log-container" style="height: 85vh; overflow-y: auto; margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; line-height: 1.2;"></pre>
-
-    <div style="border-top: 1px solid #0f0; padding: 10px 0; display: flex; align-items: center; background: #000;">
-        <span style="white-space: nowrap;">HEV-GATE:\> </span>
-        <input type="text" id="cmd-input" autofocus 
-               style="background: transparent; border: none; color: #0f0; outline: none; font-family: inherit; font-size: 14px; width: 100%; margin-left: 5px;">
-    </div>
-
-    <script>
-        const logContainer = document.getElementById('log-container');
-        const input = document.getElementById('cmd-input');
-
-        // F12 隱藏線索 (Base64: 0388)
-        const token = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA==";
-        console.log("%c [NODE_INFO] ", "background: #0f0; color: #000; font-weight: bold;");
-        console.log("Encrypted Sequence Detected: " + token);
-        console.log("Method: atob()");
-
-        const bootLogs = [
-            "Initializing HEV_GATE Protocol...",
-            "Loading Chaos_Entropy_Module.js...",
-            "Searching for fragmented records...",
-            "[WARN] Archive 'ChatHistory.2019.3.29.txt' is ENCRYPTED.",
-            "Waiting for 8-bit Logic Override Code..."
-        ];
-
-        function addLog(text, isHTML = false) {
-            const line = document.createElement('div');
-            line.style.marginBottom = "2px";
-            if (isHTML) {
-                line.innerHTML = `[${new Date().toLocaleTimeString()}] ${text}`;
-            } else {
-                line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-            }
-            logContainer.appendChild(line);
-            logContainer.scrollTop = logContainer.scrollHeight;
+    <title>System Loading...</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        // 初始啟動日誌
-        bootLogs.forEach((msg, i) => {
-            setTimeout(() => addLog(msg), i * 600);
-        });
+        .terminal {
+            width: 80%;
+            max-width: 600px;
+        }
 
-        // 定期產生隨機背景 Log
-        setInterval(() => {
-            const noise = [
-                "Ping: 127.0.0.1 ... OK",
-                "Data Stream: " + Math.random().toString(16).substring(2, 10),
-                "Status: STANDBY",
-                "Memory usage: " + (Math.random() * 100).toFixed(2) + "MB"
-            ];
-            addLog(noise[Math.floor(Math.random() * noise.length)]);
-        }, 4000);
+        .log-line {
+            margin: 5px 0;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
 
-        // 指令邏輯
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const val = this.value.trim().toUpperCase();
-                addLog(`HEV-GATE:\\> ${this.value}`);
-                
-                if (val === '0388') {
-                    addLog("--------------------------------------------------", false);
-                    addLog("STATUS: [ACCESS_GRANTED]", false);
-                    addLog("EXCLUSIVE_CODE: <span style='color: yellow; font-weight: bold;'>DIS-X77-HEV-LOG</span>", true);
-                    addLog("DECRYPTING: ChatHistory.2019.3.29.txt", false);
-                    
-                    // 生成手動下載連結，避開 Chrome 阻斷
-                    setTimeout(() => {
-                        addLog("<a href='ChatHistory.2019.3.29.txt' download style='color: #fff; background: #005500; padding: 2px 5px; text-decoration: none; border: 1px solid #0f0;'>[ CLICK TO DOWNLOAD ARCHIVE ]</a>", true);
-                    }, 1000);
-                    addLog("--------------------------------------------------", false);
-                } else if (val === 'HELP') {
-                    addLog("COMMANDS: HELP, STATUS, CLEAR, EXIT");
-                } else if (val === 'CLEAR') {
-                    logContainer.innerHTML = '';
-                } else {
-                    addLog("ERROR: INVALID_KEY_SEQUENCE. ACCESS DENIED.");
-                }
-                
-                this.value = '';
-            }
-        });
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: #fff;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
 
-        // 點擊頁面任何地方都自動聚焦輸入框
-        document.addEventListener('click', () => input.focus());
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        a { color: #888; text-decoration: none; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="terminal" id="terminal">
+        <div class="log-line">Initializing system kernel... [OK]</div>
+        <div class="log-line" style="animation-delay: 0.5s;">Accessing database: log.2019.3.27...</div>
+        <div class="log-line" style="animation-delay: 1s;">Bypassing security protocols...</div>
+        <div class="log-line" style="animation-delay: 1.5s;">Redirecting to target node... <span class="cursor"></span></div>
+    </div>
+
+    <a href="log.2019.3.27.html">Manual Entry</a>
+
+    <script>
+        // 設定 2.5 秒後跳轉，這段時間足以讓動畫跑完且避開瀏覽器即時攔截
+        setTimeout(function() {
+            window.location.replace("log.2019.3.27.html");
+        }, 2500);
     </script>
 </body>
 </html>
