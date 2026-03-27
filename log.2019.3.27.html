@@ -1,74 +1,65 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <title>TERMINAL_SESSION_0327</title>
-</head>
-<body style="background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; padding: 20px;">
+// 1. F12 控制台內的加密資訊
+const encryptedHint = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA=="; 
+console.log("%c [SYSTEM WARNING] ", "background: red; color: white; font-weight: bold;");
+console.log("Encrypted Access Token Found. Decode to proceed.");
 
-    <pre id="log-container" style="height: 80vh; overflow-y: hidden; margin-bottom: 10px;"></pre>
+// 2. 模擬 CMD Log (保留原本的循環 Log)
+const logContainer = document.getElementById('log-container');
+const logs = [
+    "[OK] Initializing Entropy-Driven Chaos Script...",
+    "[INFO] Accessing local history fragments...",
+    "[WARN] File 'ChatHistory.2019.3.29.txt' is currently LOCKED.",
+    "[DEBUG] Waiting for manual override..."
+];
 
-    <div style="border-top: 1px solid #0f0; padding-top: 10px;">
-        <span>HEV-GATE:\> </span>
-        <input type="text" id="cmd-input" autofocus 
-               style="background: transparent; border: none; color: #0f0; outline: none; font-family: inherit; width: 80%;">
-    </div>
-
-    <script>
-        // 1. F12 控制台內的加密 HTML 與線索
-        // 使用 Base64 簡單混淆，增加 ARG 的「解碼」感
-        const encryptedHint = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA=="; // 解碼後為 HEV-CODE-input-01-0388
-        console.log("%c [SYSTEM WARNING] ", "background: red; color: white; font-weight: bold;");
-        console.log("Encrypted Access Token Found:");
-        console.log(`%c ${encryptedHint} `, "color: yellow; font-style: italic;");
-        console.log("Hint: Use 'atob()' to see the truth.");
-
-        // 2. 模擬 CMD Log 跳動
-        const logContainer = document.getElementById('log-container');
-        const logs = [
-            "[OK] Initializing Entropy-Driven Chaos Script...",
-            "[INFO] Connecting to Discord Gateway via Webhook...",
-            "[WARN] Logic Gate Overflow: 8-bit Register at 255+1",
-            "[DEBUG] UUID Verification: 550e8400-e29b-41d4-a716-446655440000",
-            "[SYSTEM] Waiting for authorization code..."
-        ];
-
-        function addLog(text) {
-            const line = document.createElement('div');
-            line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-            logContainer.appendChild(line);
-            if (logContainer.childNodes.length > 25) {
-                logContainer.removeChild(logContainer.firstChild);
-            }
-        }
-
-        setInterval(() => {
-            const randomLog = logs[Math.floor(Math.random() * logs.length)];
-            addLog(randomLog);
-        }, 2000);
-
-        // 3. 輸入功能 (Command Logic)
-        const input = document.getElementById('cmd-input');
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const val = this.value.toUpperCase();
-                addLog(`HEV-GATE:\\> ${val}`);
-                
-if (val === '0388') {
-    addLog("--------------------------------------------------");
-    addLog("[ACCESS GRANTED] REDIRECTING TO HEV_THE_DP...");
-    addLog("--------------------------------------------------");
-    setTimeout(() => {
-        window.location.href = "HEVtheDP.html"; // 執行跳轉
-    }, 1500);
+function addLog(text) {
+    const line = document.createElement('div');
+    line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+    logContainer.appendChild(line);
+    logContainer.scrollTop = logContainer.scrollHeight;
 }
-                
-                this.value = '';
-            }
-        });
 
-        // 防止玩家不小心關掉輸入框焦點
-        document.addEventListener('click', () => input.focus());
-    </script>
-</body>
-</html>
+setInterval(() => {
+    const randomLog = logs[Math.floor(Math.random() * logs.length)];
+    addLog(randomLog);
+}, 3000);
+
+// 3. 下載功能函式
+function downloadSecretFile() {
+    // 這裡替換成你 GitHub Pages 的實際路徑
+    const fileUrl = 'ChatHistory.2019.3.29.txt'; 
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = 'ChatHistory.2019.3.29.txt'; // 指定下載檔名
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// 4. 輸入指令邏輯
+const input = document.getElementById('cmd-input');
+input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const val = this.value.toUpperCase();
+        addLog(`HEV-GATE:\\> ${val}`);
+        
+        // 假設從 F12 解出的代碼是 0388
+        if (val === '0388') {
+            addLog("--------------------------------------------------");
+            addLog("[AUTH SUCCESS] DECRYPTING ARCHIVE...");
+            addLog("[SYSTEM] DOWNLOADING: ChatHistory.2019.3.29.txt");
+            addLog(">> YOUR CODE: DIS-X77-HEV-LOG <<");
+            addLog("--------------------------------------------------");
+            
+            // 觸發下載
+            setTimeout(downloadSecretFile, 1500);
+            
+            alert("驗證成功！機密文件已同步下載。");
+        } else {
+            addLog("[ERROR] ACCESS DENIED.");
+        }
+        this.value = '';
+    }
+});
+
+document.addEventListener('click', () => input.focus());
