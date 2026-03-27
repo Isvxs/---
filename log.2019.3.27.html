@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>TERMINAL_SESSION_0327</title>
+</head>
+<body style="background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; padding: 20px;">
+
+    <pre id="log-container" style="height: 80vh; overflow-y: hidden; margin-bottom: 10px;"></pre>
+
+    <div style="border-top: 1px solid #0f0; padding-top: 10px;">
+        <span>HEV-GATE:\> </span>
+        <input type="text" id="cmd-input" autofocus 
+               style="background: transparent; border: none; color: #0f0; outline: none; font-family: inherit; width: 80%;">
+    </div>
+
+    <script>
+        // 1. F12 控制台內的加密 HTML 與線索
+        // 使用 Base64 簡單混淆，增加 ARG 的「解碼」感
+        const encryptedHint = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA=="; // 解碼後為 HEV-CODE-input-01-0388
+        console.log("%c [SYSTEM WARNING] ", "background: red; color: white; font-weight: bold;");
+        console.log("Encrypted Access Token Found:");
+        console.log(`%c ${encryptedHint} `, "color: yellow; font-style: italic;");
+        console.log("Hint: Use 'atob()' to see the truth.");
+
+        // 2. 模擬 CMD Log 跳動
+        const logContainer = document.getElementById('log-container');
+        const logs = [
+            "[OK] Initializing Entropy-Driven Chaos Script...",
+            "[INFO] Connecting to Discord Gateway via Webhook...",
+            "[WARN] Logic Gate Overflow: 8-bit Register at 255+1",
+            "[DEBUG] UUID Verification: 550e8400-e29b-41d4-a716-446655440000",
+            "[SYSTEM] Waiting for authorization code..."
+        ];
+
+        function addLog(text) {
+            const line = document.createElement('div');
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+            logContainer.appendChild(line);
+            if (logContainer.childNodes.length > 25) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+
+        setInterval(() => {
+            const randomLog = logs[Math.floor(Math.random() * logs.length)];
+            addLog(randomLog);
+        }, 2000);
+
+        // 3. 輸入功能 (Command Logic)
+        const input = document.getElementById('cmd-input');
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const val = this.value.toUpperCase();
+                addLog(`HEV-GATE:\\> ${val}`);
+                
+if (val === '0388') {
+    addLog("--------------------------------------------------");
+    addLog("[ACCESS GRANTED] REDIRECTING TO HEV_THE_DP...");
+    addLog("--------------------------------------------------");
+    setTimeout(() => {
+        window.location.href = "HEVtheDP.html"; // 執行跳轉
+    }, 1500);
+}
+                
+                this.value = '';
+            }
+        });
+
+        // 防止玩家不小心關掉輸入框焦點
+        document.addEventListener('click', () => input.focus());
+    </script>
+</body>
+</html>
