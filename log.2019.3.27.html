@@ -1,65 +1,97 @@
-// 1. F12 控制台內的加密資訊
-const encryptedHint = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA=="; 
-console.log("%c [SYSTEM WARNING] ", "background: red; color: white; font-weight: bold;");
-console.log("Encrypted Access Token Found. Decode to proceed.");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEV_FRAGMENT_RECOVERY_PROT</title>
+</head>
+<body style="background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; padding: 20px; margin: 0;">
 
-// 2. 模擬 CMD Log (保留原本的循環 Log)
-const logContainer = document.getElementById('log-container');
-const logs = [
-    "[OK] Initializing Entropy-Driven Chaos Script...",
-    "[INFO] Accessing local history fragments...",
-    "[WARN] File 'ChatHistory.2019.3.29.txt' is currently LOCKED.",
-    "[DEBUG] Waiting for manual override..."
-];
+    <pre id="log-container" style="height: 85vh; overflow-y: auto; margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; line-height: 1.2;"></pre>
 
-function addLog(text) {
-    const line = document.createElement('div');
-    line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-    logContainer.appendChild(line);
-    logContainer.scrollTop = logContainer.scrollHeight;
-}
+    <div style="border-top: 1px solid #0f0; padding: 10px 0; display: flex; align-items: center; background: #000;">
+        <span style="white-space: nowrap;">HEV-GATE:\> </span>
+        <input type="text" id="cmd-input" autofocus 
+               style="background: transparent; border: none; color: #0f0; outline: none; font-family: inherit; font-size: 14px; width: 100%; margin-left: 5px;">
+    </div>
 
-setInterval(() => {
-    const randomLog = logs[Math.floor(Math.random() * logs.length)];
-    addLog(randomLog);
-}, 3000);
+    <script>
+        const logContainer = document.getElementById('log-container');
+        const input = document.getElementById('cmd-input');
 
-// 3. 下載功能函式
-function downloadSecretFile() {
-    // 這裡替換成你 GitHub Pages 的實際路徑
-    const fileUrl = 'ChatHistory.2019.3.29.txt'; 
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = 'ChatHistory.2019.3.29.txt'; // 指定下載檔名
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+        // F12 隱藏線索 (Base64: 0388)
+        const token = "SEVWLUNPREUtaW5wdXQtMDEtMDM4OA==";
+        console.log("%c [NODE_INFO] ", "background: #0f0; color: #000; font-weight: bold;");
+        console.log("Encrypted Sequence Detected: " + token);
+        console.log("Method: atob()");
 
-// 4. 輸入指令邏輯
-const input = document.getElementById('cmd-input');
-input.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        const val = this.value.toUpperCase();
-        addLog(`HEV-GATE:\\> ${val}`);
-        
-        // 假設從 F12 解出的代碼是 0388
-        if (val === '0388') {
-            addLog("--------------------------------------------------");
-            addLog("[AUTH SUCCESS] DECRYPTING ARCHIVE...");
-            addLog("[SYSTEM] DOWNLOADING: ChatHistory.2019.3.29.txt");
-            addLog(">> YOUR CODE: DIS-X77-HEV-LOG <<");
-            addLog("--------------------------------------------------");
-            
-            // 觸發下載
-            setTimeout(downloadSecretFile, 1500);
-            
-            alert("驗證成功！機密文件已同步下載。");
-        } else {
-            addLog("[ERROR] ACCESS DENIED.");
+        const bootLogs = [
+            "Initializing HEV_GATE Protocol...",
+            "Loading Chaos_Entropy_Module.js...",
+            "Searching for fragmented records...",
+            "[WARN] Archive 'ChatHistory.2019.3.29.txt' is ENCRYPTED.",
+            "Waiting for 8-bit Logic Override Code..."
+        ];
+
+        function addLog(text, isHTML = false) {
+            const line = document.createElement('div');
+            line.style.marginBottom = "2px";
+            if (isHTML) {
+                line.innerHTML = `[${new Date().toLocaleTimeString()}] ${text}`;
+            } else {
+                line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+            }
+            logContainer.appendChild(line);
+            logContainer.scrollTop = logContainer.scrollHeight;
         }
-        this.value = '';
-    }
-});
 
-document.addEventListener('click', () => input.focus());
+        // 初始啟動日誌
+        bootLogs.forEach((msg, i) => {
+            setTimeout(() => addLog(msg), i * 600);
+        });
+
+        // 定期產生隨機背景 Log
+        setInterval(() => {
+            const noise = [
+                "Ping: 127.0.0.1 ... OK",
+                "Data Stream: " + Math.random().toString(16).substring(2, 10),
+                "Status: STANDBY",
+                "Memory usage: " + (Math.random() * 100).toFixed(2) + "MB"
+            ];
+            addLog(noise[Math.floor(Math.random() * noise.length)]);
+        }, 4000);
+
+        // 指令邏輯
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const val = this.value.trim().toUpperCase();
+                addLog(`HEV-GATE:\\> ${this.value}`);
+                
+                if (val === '0388') {
+                    addLog("--------------------------------------------------", false);
+                    addLog("STATUS: [ACCESS_GRANTED]", false);
+                    addLog("EXCLUSIVE_CODE: <span style='color: yellow; font-weight: bold;'>DIS-X77-HEV-LOG</span>", true);
+                    addLog("DECRYPTING: ChatHistory.2019.3.29.txt", false);
+                    
+                    // 生成手動下載連結，避開 Chrome 阻斷
+                    setTimeout(() => {
+                        addLog("<a href='ChatHistory.2019.3.29.txt' download style='color: #fff; background: #005500; padding: 2px 5px; text-decoration: none; border: 1px solid #0f0;'>[ CLICK TO DOWNLOAD ARCHIVE ]</a>", true);
+                    }, 1000);
+                    addLog("--------------------------------------------------", false);
+                } else if (val === 'HELP') {
+                    addLog("COMMANDS: HELP, STATUS, CLEAR, EXIT");
+                } else if (val === 'CLEAR') {
+                    logContainer.innerHTML = '';
+                } else {
+                    addLog("ERROR: INVALID_KEY_SEQUENCE. ACCESS DENIED.");
+                }
+                
+                this.value = '';
+            }
+        });
+
+        // 點擊頁面任何地方都自動聚焦輸入框
+        document.addEventListener('click', () => input.focus());
+    </script>
+</body>
+</html>
